@@ -1,0 +1,196 @@
+---
+  version: '2.2'
+  services:
+    zookeeper:
+      image: confluentinc/cp-zookeeper:6.2.0
+      hostname: zookeeper
+      container_name: zookeeper
+      ports:
+        - "2181:2181"
+      environment:
+        ZOOKEEPER_CLIENT_PORT: 2181
+        ZOOKEEPER_TICK_TIME: 2000
+    
+    broker:
+      image: confluentinc/cp-enterprise-kafka:6.2.0
+      hostname: broker
+      container_name: broker
+      depends_on:
+        - zookeeper
+      ports:
+        - "9092:9092"
+        - "9101:9101"
+      environment:
+        KAFKA_BROKER_ID: 1
+        KAFKA_ZOOKEEPER_CONNECT: 'zookeeper:2181'
+        KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+        KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://broker:29092,PLAINTEXT_HOST://localhost:9092
+        KAFKA_METRIC_REPORTERS: io.confluent.metrics.reporter.ConfluentMetricsReporter
+        KAFKA_MIN_INSYNC_REPLICAS: 1
+        KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+        KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 100
+        KAFKA_LOG_RETENTION_HOURS: 6
+        KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+        KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+        KAFKA_JMX_PORT: 9101
+        CONFLUENT_METRICS_REPORTER_BOOTSTRAP_SERVERS: 'broker:29092'
+        CONFLUENT_METRICS_REPORTER_ZOOKEEPER_CONNECT: zookeeper:2181
+        CONFLUENT_METRICS_REPORTER_TOPIC_REPLICAS: 1
+        KAFKA_LOG4J_ROOT_LOGLEVEL: WARN
+        KAFKA_LOG4J_LOGGERS: "kafka.controller=WARN,state.change.logger=WARN,kafka.log.LogCleaner=WARN"
+        CONFLUENT_METRICS_ENABLE: 'true'
+        CONFLUENT_SUPPORT_CUSTOMER_ID: 'anonymous'
+    
+    schema-registry:
+      image: confluentinc/cp-schema-registry:6.2.0
+      hostname: schema-registry
+      container_name: schema-registry
+      depends_on:
+        - broker
+      ports:
+        - "8081:8081"
+      environment:
+        SCHEMA_REGISTRY_HOST_NAME: schema-registry
+        SCHEMA_REGISTRY_KAFKASTORE_CONNECTION_URL: "zookeeper:2181"
+
+  
+    replicator:
+      image: confluentinc/cp-enterprise-replicator:6.2.0
+      hostname: replicator
+      container_name: replicator
+      depends_on:
+        - broker
+        - schema-registry
+      ports:
+        - "8084:8084"
+      environment:
+        CONNECT_BOOTSTRAP_SERVERS: '${BOOTSTRAP_SERVERS}'
+        CONNECT_SSL_ENDPOINT_IDENTIFICATION_ALGORITHM: https
+        CONNECT_SECURITY_PROTOCOL: SASL_SSL
+        CONNECT_SASL_MECHANISM: PLAIN
+        CONNECT_SASL_JAAS_CONFIG: org.apache.kafka.common.security.plain.PlainLoginModule required username=\"${CLOUD_KEY}\" password=\"${CLOUD_SECRET}\";
+        CONNECT_REST_ADVERTISED_HOST_NAME: replicator
+        CONNECT_REST_PORT: 8084
+        CONNECT_GROUP_ID: compose-connect-replicator
+        CONNECT_CONFIG_STORAGE_REPLICATION_FACTOR: "3"
+        CONNECT_OFFSET_STORAGE_REPLICATION_FACTOR: "3"
+        CONNECT_STATUS_STORAGE_REPLICATION_FACTOR: "3"
+        CONNECT_CONFIG_STORAGE_PARTITIONS: "1"
+        CONNECT_OFFSET_STORAGE_PARTITIONS: "1"
+        CONNECT_STATUS_STORAGE_PARTITIONS: "1"
+        CONNECT_OFFSET_FLUSH_INTERVAL_MS: 100000
+        CONNECT_CONFIG_STORAGE_TOPIC: _iiot-connect-configs
+        CONNECT_OFFSET_STORAGE_TOPIC: _iiot-connect-offsets
+        CONNECT_STATUS_STORAGE_TOPIC: _iiot-connect-statuses
+        CONNECT_KEY_CONVERTER: io.confluent.connect.avro.AvroConverter
+        CONNECT_VALUE_CONVERTER: io.confluent.connect.avro.AvroConverter
+        CONNECT_VALUE_CONVERTER_SCHEMA_REGISTRY_URL: http://schema-registry:8081
+        CONNECT_KEY_CONVERTER_SCHEMA_REGISTRY_URL: http://schema-registry:8081
+        CONNECT_INTERNAL_KEY_CONVERTER: "org.apache.kafka.connect.json.JsonConverter"
+        CONNECT_INTERNAL_VALUE_CONVERTER: "org.apache.kafka.connect.json.JsonConverter"
+        # CLASSPATH required due to CC-2422
+        # Interceptor config
+        CONNECT_PRODUCER_INTERCEPTOR_CLASSES: "io.confluent.monitoring.clients.interceptor.MonitoringProducerInterceptor"
+        CONNECT_CONSUMER_INTERCEPTOR_CLASSES: "io.confluent.monitoring.clients.interceptor.MonitoringConsumerInterceptor"
+        CLASSPATH: /usr/share/java/monitoring-interceptors/monitoring-interceptors-6.2.0.jar:/usr/share/java/kafka-connect-replicator/replicator-rest-extension-6.2.0.jar
+        CONNECT_PLUGIN_PATH: "/usr/share/java,/usr/share/confluent-hub-components"
+        CONNECT_LOG4J_LOGGERS: org.reflections=ERROR
+        CONNECT_LOG4J_ROOT_LOGLEVEL: INFO
+        CONNECT_CONFLUENT_LICENSE_INJECT_INTO_CONNECTORS: "FALSE"
+        CONNECT_CONNECTOR_CLIENT_CONFIG_OVERRIDE_POLICY: 'All'
+        # Producer config
+        CONNECT_PRODUCER_SSL_ENDPOINT_IDENTIFICATION_ALGORITHM: https
+        CONNECT_PRODUCER_SECURITY_PROTOCOL: SASL_SSL
+        CONNECT_PRODUCER_SASL_MECHANISM: PLAIN
+        CONNECT_PRODUCER_SASL_JAAS_CONFIG: org.apache.kafka.common.security.plain.PlainLoginModule required username=\"${CLOUD_KEY}\" password=\"${CLOUD_SECRET}\";
+        # Consumer config
+        CONNECT_CONSUMER_SSL_ENDPOINT_IDENTIFICATION_ALGORITHM: https
+        CONNECT_CONSUMER_SECURITY_PROTOCOL: SASL_SSL
+        CONNECT_CONSUMER_SASL_MECHANISM: PLAIN
+        CONNECT_CONSUMER_SASL_JAAS_CONFIG: org.apache.kafka.common.security.plain.PlainLoginModule required username=\"${CLOUD_KEY}\" password=\"${CLOUD_SECRET}\";
+      command:
+          - bash
+          - -c
+          - |
+            apt-get -qq update
+            apt-get clean && rm -rf /tmp/* /var/lib/apt/lists/*
+            confluent-hub install --no-prompt confluentinc/kafka-connect-datagen:0.5.0
+            /etc/confluent/docker/run & 
+            #
+            sleep infinity
+    connect:
+      image: confluentinc/cp-enterprise-replicator:6.2.0
+      hostname: connect
+      container_name: connect
+      depends_on:
+        - broker
+        - schema-registry
+      ports:
+        - "8083:8083"
+      environment:
+        CONNECT_BOOTSTRAP_SERVERS: 'broker:29092'
+        CONNECT_REST_ADVERTISED_HOST_NAME: connect
+        CONNECT_REST_PORT: 8083
+        CONNECT_GROUP_ID: compose-connect-group
+        CONNECT_CONFIG_STORAGE_TOPIC: _dc_iiot-connect-configs
+        CONNECT_OFFSET_STORAGE_TOPIC: _dc_iiot-connect-offsets
+        CONNECT_STATUS_STORAGE_TOPIC: _dc_iiot-connect-statuses
+        CONNECT_CONFIG_STORAGE_REPLICATION_FACTOR: "1"
+        CONNECT_OFFSET_STORAGE_REPLICATION_FACTOR: "1"
+        CONNECT_STATUS_STORAGE_REPLICATION_FACTOR: "1"
+        CONNECT_CONFIG_STORAGE_PARTITIONS: "1"
+        CONNECT_OFFSET_STORAGE_PARTITIONS: "1"
+        CONNECT_STATUS_STORAGE_PARTITIONS: "1"
+        CONNECT_OFFSET_FLUSH_INTERVAL_MS: 100000
+        CONNECT_KEY_CONVERTER: org.apache.kafka.connect.storage.StringConverter
+        CONNECT_VALUE_CONVERTER: io.confluent.connect.avro.AvroConverter
+        CONNECT_VALUE_CONVERTER_SCHEMA_REGISTRY_URL: http://schema-registry:8081
+        CONNECT_INTERNAL_KEY_CONVERTER: "org.apache.kafka.connect.json.JsonConverter"
+        CONNECT_INTERNAL_VALUE_CONVERTER: "org.apache.kafka.connect.json.JsonConverter"
+        # CLASSPATH required due to CC-2422
+        CLASSPATH: /usr/share/java/monitoring-interceptors/monitoring-interceptors-6.2.0.jar
+        CONNECT_PRODUCER_INTERCEPTOR_CLASSES: "io.confluent.monitoring.clients.interceptor.MonitoringProducerInterceptor"
+        CONNECT_CONSUMER_INTERCEPTOR_CLASSES: "io.confluent.monitoring.clients.interceptor.MonitoringConsumerInterceptor"
+        CONNECT_PLUGIN_PATH: "/usr/share/java,/usr/share/confluent-hub-components"
+        CONNECT_LOG4J_LOGGERS: org.reflections=ERROR
+        CONNECT_LOG4J_ROOT_LOGLEVEL: INFO
+        CONNECT_CONFLUENT_LICENSE_INJECT_INTO_CONNECTORS: "FALSE"
+        CONNECT_CONNECTOR_CLIENT_CONFIG_OVERRIDE_POLICY: 'All'
+      command:
+        - bash
+        - -c
+        - |
+          confluent-hub install --no-prompt confluentinc/kafka-connect-datagen:0.5.0
+          echo "Launching Kafka Connect worker"
+          /etc/confluent/docker/run & 
+          #
+          sleep infinity
+
+    control-center:
+      image: confluentinc/cp-enterprise-control-center:6.2.0
+      hostname: control-center
+      container_name: control-center
+      depends_on:
+        - broker
+        - schema-registry
+        - replicator
+      ports:
+        - "9021:9021"
+      environment:
+        CONTROL_CENTER_BOOTSTRAP_SERVERS: "broker:29092"
+        CONTROL_CENTER_ZOOKEEPER_CONNECT: "zookeeper:2181"
+        CONTROL_CENTER_CONNECT_REPLICATOR_CLUSTER: "http://replicator:8084"
+        CONTROL_CENTER_CONNECT_CONNECT_CLUSTER: "http://connect:8083"
+        CONTROL_CENTER_SCHEMA_REGISTRY_URL: "http://schema-registry:8081"
+        CONTROL_CENTER_REPLICATION_FACTOR: 1
+        CONTROL_CENTER_INTERNAL_TOPICS_PARTITIONS: 1
+        CONTROL_CENTER_MONITORING_INTERCEPTOR_TOPIC_PARTITIONS: 1
+        CONTROL_CENTER_KAFKA_CCLOUD_BOOTSTRAP_SERVERS: '${BOOTSTRAP_SERVERS}'
+        CONTROL_CENTER_KAFKA_CCLOUD_SSL_ENDPOINT_IDENTIFICATION_ALGORITHM: https
+        CONTROL_CENTER_KAFKA_CCLOUD_SECURITY_PROTOCOL: SASL_SSL
+        CONTROL_CENTER_KAFKA_CCLOUD_SASL_MECHANISM: PLAIN
+        CONTROL_CENTER_KAFKA_CCLOUD_SASL_JAAS_CONFIG: org.apache.kafka.common.security.plain.PlainLoginModule required username=\"${CLOUD_KEY}\" password=\"${CLOUD_SECRET}\";
+        CONTROL_CENTER_KAFKA_CCLOUD_SCHEMA_REGISTRY_URL: ${SCHEMA_REGISTRY_URL}
+        CONTROL_CENTER_AUTH_SESSION_EXPIRATION_MS: 6000000
+        CONFLUENT_METRICS_TOPIC_REPLICATION: 1
+        PORT: 9021
