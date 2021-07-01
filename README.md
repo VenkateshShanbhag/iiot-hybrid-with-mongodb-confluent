@@ -29,7 +29,7 @@ offset. Produce operation is controlled by Kafka Connect producer configuration 
 ## Architecture of data flow
 <img align="center" src="./assets/IIoT%20Hybrid%20Usecase.png?raw=true">
 
-## Steps to replicate the environment
+## Get started
 
 1. Create a [Confluent Cloud account](https://confluent.cloud/signup).
 
