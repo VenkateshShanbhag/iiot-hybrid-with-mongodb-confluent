@@ -14,7 +14,7 @@ Kafka-native options to note for MQTT integration beyond Kafka client APIs like 
 
 In this demo of IIoT hybrid use case (confluent at the edge) with MongoDB atlas and Confluent, we leverage the hybrid functionality of the replicator. [Datagen connector](https://www.confluent.io/hub/confluentinc/kafka-connect-datagen) simulates IIoT data, and the replicator moves it securely Confluent cloud. The data is processed using ksqlDB and sent to MongoDB Atlas. With Confluent and technology partner [connectors](https://www.confluent.io/hub/), data can move to any plane (Apps, Object Store, BI and Visualization, etc.).
 
-It is a simplified version of Confluent [cp-demo](https://docs.confluent.io/platform/current/tutorials/cp-demo/docs/hybrid-cloud.html).
+The demo is inspired by [Confluent CP Demo](https://docs.confluent.io/platform/current/tutorials/cp-demo/docs/hybrid-cloud.html).
 
 ### Caution
 Any Confluent Cloud example uses real Confluent Cloud resources that may be billable. An example may create a new Confluent Cloud environment, Kafka cluster, topics, ACLs, and service accounts, as well as resources that have hourly charges like connectors and ksqlDB applications. To avoid unexpected charges, carefully evaluate the cost of resources before you start. After you are done running a Confluent Cloud example, destroy all Confluent Cloud resources to avoid accruing hourly charges for services and verify that they have been deleted.
