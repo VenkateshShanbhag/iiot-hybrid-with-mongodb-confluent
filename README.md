@@ -20,3 +20,16 @@ offset. Produce operation is controlled by Kafka Connect producer configuration 
 <img align="center" src="./assets/IIoT%20Hybrid%20Usecase.png?raw=true">
 
 ## Steps to replicate the environment
+
+1. Create a [Confluent Cloud account](https://confluent.cloud/signup).
+
+2. Setup a payment method for your Confluent Cloud account and optionally enter the promo code CPDEMO50 (*may no longer valid*) in the Confluent Cloud UI Billing and payment section to receive an additional $50 free usage.
+
+3. [Install Confluent Cloud CLI] (https://docs.confluent.io/ccloud-cli/current/install.html) v1.34.0 or later.
+Using the CLI, log in to Confluent Cloud with the command ccloud login, and use your Confluent Cloud username and password. The --save argument saves your Confluent Cloud user login credentials or refresh token (in the case of SSO) to the local netrc file.
+
+*ccloud login --save*
+
+4. Run cloud workflow
+
+*./docker/create-ccloud-workflow.sh*
