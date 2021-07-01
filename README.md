@@ -1,6 +1,6 @@
 # IIoT Hybrid Demo with MongoDB and Confluent
 
-The usecase is a subset of blog, [Internet of Things (IoT) and Event Streaming at Scale with Apache Kafka and MQTT](https://www.confluent.io/blog/iot-with-kafka-connect-mqtt-and-rest-proxy/).
+The usecase is a subset, [Internet of Things (IoT) and Event Streaming at Scale with Apache Kafka and MQTT](https://www.confluent.io/blog/iot-with-kafka-connect-mqtt-and-rest-proxy/).
 
 Apache Kafka® and its surrounding ecosystem, which includes Kafka Connect, Kafka Streams, and ksqlDB, have become the technology of choice for integrating and processing these kinds of datasets.
 
