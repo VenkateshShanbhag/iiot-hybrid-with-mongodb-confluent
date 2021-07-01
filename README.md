@@ -78,6 +78,6 @@ It -
 
 Update the atlas_connection.json with mongodb KEY, SECRET, HOST and USER. 
 
-*./docker//ccloud/1_submit_atlas.sh*
+*./docker/ccloud/1_submit_atlas.sh*
 
 ##### 9. ksqlDB - TODO
