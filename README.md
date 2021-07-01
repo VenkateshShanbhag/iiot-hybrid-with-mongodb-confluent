@@ -32,4 +32,4 @@ Using the CLI, log in to Confluent Cloud with the command ccloud login, and use 
 
 4. Run cloud workflow
 
-*./docker/create-ccloud-workflow.sh*
+*./docker/1_confluent_cloud_provisioning.sh*
