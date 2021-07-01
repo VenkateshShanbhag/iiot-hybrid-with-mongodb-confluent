@@ -28,10 +28,14 @@ offset. Produce operation is controlled by Kafka Connect producer configuration 
 3. [Install Confluent Cloud CLI] (https://docs.confluent.io/ccloud-cli/current/install.html) v1.34.0 or later.
 Using the CLI, log in to Confluent Cloud with the command ccloud login, and use your Confluent Cloud username and password. The --save argument saves your Confluent Cloud user login credentials or refresh token (in the case of SSO) to the local netrc file.
 
+4. Login to Confluent Cloud and Store Credentials in Local 
+
+Run -
 *ccloud login --save*
 
-4. Run cloud workflow
+5. Cloud workflow
 
+Run -
 *./docker/1_confluent_cloud_provisioning.sh*
 
 It - 
@@ -42,4 +46,28 @@ It -
 - creates ACLs with a wildcard for the service account.
 - creates "iiot.simulated" topic and update the service account with ACL operations.
 
-5. 
+6. Docker workflow.
+
+Run -
+*./docker/2_create_docker.sh*
+
+It - 
+- creates containers for zookeeper, broker, schema-registry, replicator, connect, and Control-center.
+
+7. Connector workflow
+
+Run -
+*./docker/3_create_topic_connectors_command.sh*
+
+It -
+- creates iiot.simulated topic on the connect
+- starts a replicator on replicator service
+- starts a datagen connector to populate simulated data to iiot.simulate topic.
+
+8. Create Atlas connector in Confluent cloud
+
+Update the atlas_connection.json with mongodb KEY, SECRET, HOST and USER. 
+
+*./docker//ccloud/1_submit_atlas.sh*
+
+##### 9. ksqlDB - TODO
