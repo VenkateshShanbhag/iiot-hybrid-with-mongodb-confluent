@@ -1,5 +1,15 @@
 # IIoT Hybrid Demo with MongoDB and Confluent
 
+The usecase is a subset of blog, [Internet of Things (IoT) and Event Streaming at Scale with Apache Kafka and MQTT](https://www.confluent.io/blog/iot-with-kafka-connect-mqtt-and-rest-proxy/).
+
+Apache Kafka® and its surrounding ecosystem, which includes Kafka Connect, Kafka Streams, and ksqlDB, have become the technology of choice for integrating and processing these kinds of datasets.
+
+Kafka-native options to note for MQTT integration beyond Kafka client APIs like Java, Python, .NET, and C/C++ are:
+
+- Kafka Connect source and sink connectors, which integrate with MQTT brokers in both directions
+- Confluent MQTT Proxy, which ingests data from IoT devices without needing a MQTT broker
+- Confluent REST Proxy for a simple but powerful HTTP-based integration
+
 [Confluent replicator](https://docs.confluent.io/platform/current/multi-dc-deployments/replicator/index.html) provides mature, robust, and advanced Kafka replication. Features like topic auto-creation, schema replication, partition detection, and reliable active-active replication make replicated event-driven architectures reachable for even small teams.
 
 In this demo of IIoT hybrid use case (confluent at the edge) with MongoDB atlas and Confluent, we leverage the hybrid functionality of the replicator. [Datagen connector](https://www.confluent.io/hub/confluentinc/kafka-connect-datagen) simulates IIoT data, and the replicator moves it securely Confluent cloud. The data is processed using ksqlDB and sent to MongoDB Atlas. With Confluent and technology partner [connectors](https://www.confluent.io/hub/), data can move to any plane (Apps, Object Store, BI and Visualization, etc.).
