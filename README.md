@@ -60,8 +60,8 @@ Run -
 *./docker/3_create_topic_connectors_command.sh*
 
 It -
-- creates iiot.simulated topic on the connect
-- starts a replicator on replicator service
+- creates iiot.simulated topic on the connect service
+- starts a replicator connector on the replicator service
 - starts a datagen connector to populate simulated data to iiot.simulate topic.
 
 8. Create Atlas connector in Confluent cloud
