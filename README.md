@@ -12,11 +12,11 @@ Any Confluent Cloud example uses real Confluent Cloud resources that may be bill
 ### Confluent Cloud Promo Code
 To receive an additional $50 free usage in Confluent Cloud, enter promo code CPDEMO50 (*may no longer valid*) in the Confluent Cloud UI Billing and payment section (details). This promo code should sufficiently cover up to one day of running this Confluent Cloud example, beyond which you may be billed for the services that have an hourly charge until you destroy the Confluent Cloud resources created by this example.
 
-## Architecture of data flow
-<img align="center" src="./assets/IIoT%20Hybrid%20Usecase.png?raw=true">
-
-## A note on replicator
+### A note on replicator
 Confluent Replicator acts as a Source Connector which reads from a remote cluster to the Kafka Connect bootstrap cluster (by default). The configuration parameters such as dest.kafka.* suggest that all settings with regards to writing data topics are handled by those set of configs. However, in reality, dest.kafka.* is only used for non-produce operation like creating destination topic or translating
 offset. Produce operation is controlled by Kafka Connect producer configuration because Confluent Replicator is a Source Connector.
+
+## Architecture of data flow
+<img align="center" src="./assets/IIoT%20Hybrid%20Usecase.png?raw=true">
 
 ## Steps to replicate the environment
