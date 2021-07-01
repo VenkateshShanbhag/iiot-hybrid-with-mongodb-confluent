@@ -33,3 +33,13 @@ Using the CLI, log in to Confluent Cloud with the command ccloud login, and use 
 4. Run cloud workflow
 
 *./docker/1_confluent_cloud_provisioning.sh*
+
+It - 
+- creates a new environment.
+- creates a new service account.
+- creates a new Kafka cluster and associated credentials.
+- enables Confluent Cloud Schema Registry and associated credentials.
+- creates ACLs with a wildcard for the service account.
+- creates "iiot.simulated" topic and update the service account with ACL operations.
+
+5. 
