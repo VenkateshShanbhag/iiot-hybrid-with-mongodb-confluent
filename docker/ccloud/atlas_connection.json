@@ -1,0 +1,14 @@
+{
+    "connector.class": "MongoDbAtlasSink",
+    "name": "mongodb-sink",
+    "kafka.api.key": "",
+    "kafka.api.secret": "",
+    "input.data.format" : "JSON",
+    "connection.host": "",
+    "connection.user": "",
+    "connection.password": "",
+    "topics": "iiot.simulated",
+    "database": "Data4Atlas",
+    "collection": "kafka",
+    "tasks.max": "1"
+}
