@@ -85,3 +85,10 @@ Update the atlas_connection.json with mongodb KEY, SECRET, HOST and USER.
 *./docker/ccloud/1_submit_atlas.sh*
 
 ##### 9. ksqlDB - TODO
+
+#Destroy the environment
+It destroys docker and cloud assets.
+
+Execute:
+
+*./docker/4_destroy-workflow.sh*
