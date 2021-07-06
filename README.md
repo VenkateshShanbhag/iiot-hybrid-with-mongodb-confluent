@@ -86,7 +86,7 @@ Update the atlas_connection.json with mongodb KEY, SECRET, HOST and USER.
 
 ##### 9. ksqlDB - TODO
 
-#Destroy the environment
+## Destroy the environment
 It destroys docker and cloud assets.
 
 Execute:
