@@ -40,12 +40,14 @@ Using the CLI, log in to Confluent Cloud with the command ccloud login, and use 
 
 4. Login to Confluent Cloud and Store Credentials in Local 
 
-Run -
+Execute: 
+
 *ccloud login --save*
 
 5. Cloud workflow
 
-Run -
+Execute:
+
 *./docker/1_confluent_cloud_provisioning.sh*
 
 It - 
@@ -58,7 +60,8 @@ It -
 
 6. Docker workflow.
 
-Run -
+Execute:
+
 *./docker/2_create_docker.sh*
 
 It - 
@@ -66,7 +69,8 @@ It -
 
 7. Connector workflow
 
-Run -
+Execute:
+
 *./docker/3_create_topic_connectors_command.sh*
 
 It -
