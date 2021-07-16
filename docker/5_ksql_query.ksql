@@ -1,0 +1,18 @@
+set 'auto.offset.reset'='earliest';
+
+CREATE STREAM iiot_simulated
+  (iiot_id VARCHAR key,
+   payload VARCHAR
+  )
+  WITH (KAFKA_TOPIC='iiot.simulated',
+        VALUE_FORMAT='json');
+
+CREATE OR REPLACE STREAM iiot_simulated_processed
+WITH (KAFKA_TOPIC='iiot.simulated.processed',
+        VALUE_FORMAT='json',
+        KEY_FORMAT='KAFKA') 
+AS SELECT
+  payload as iiot_data, 
+  iiot_id as iiot_id,
+  TIMESTAMPTOSTRING(rowtime, 'yyyy-MM-dd HH:mm:ss.SSS', 'UTC') AS iiot_ts
+from iiot_simulated;

@@ -1,0 +1,91 @@
+{
+    "namespace": "iiot",
+    "name": "IIoT",
+    "doc": "Defines a hypothetical IIoT Data",
+    "type": "record",
+    "fields": [
+        {
+            "name": "iiot_status",
+            "doc": "Device Status",
+            "type": {
+                "type": "string",
+                "arg.properties": {
+                    "options": [
+                        "ON",
+                        "OFF",
+                        "UNKNOWN",
+                        "ERROR"
+                    ]
+                }
+            }
+        },
+        {
+            "name": "iiot_temp",
+            "doc": "Temperature read by sensor",
+            "type": {
+                "type": "int",
+                "arg.properties": {
+                    "range": {
+                        "min": 20,
+                        "max": 50
+                    }
+                }
+            }
+        },
+        {
+            "name": "iiot_type",
+            "doc": "Sensor Id",
+            "type": {
+                "type": "string",
+                "arg.properties": {
+                    "options": [
+                        "ZBZX",
+                        "ZJZZT",
+                        "ZTEST",
+                        "ZVV",
+                        "ZVZZT",
+                        "ZWZZT",
+                        "ZXZZT"
+                    ]
+                }
+            }
+        },
+        {
+            "name": "iiot_speed",
+            "doc": "Speed of the Vehicle carrying the sensor",
+            "type": {
+                "type": "int",
+                "arg.properties": {
+                    "range": {
+                        "min": 0,
+                        "max": 100
+                    }
+                }
+            }
+        },
+        {
+            "name": "iiot_position",
+            "doc": "Cargo Door Satus",
+            "type": {
+                "type": "string",
+                "arg.properties": {
+                    "options": [
+                        "OPEN",
+                        "CLOSED",
+                        "AJAR"
+                    ]
+                }
+            }
+        },
+        {
+            "name": "iiot_id",
+            "doc": "The simulated truck carrying the sensor",
+            "type": {
+                "type": "string",
+                "arg.properties": {
+                    "regex": "Truck[1-9]{0,1}"
+                }
+            }
+        }
+    ]
+}
