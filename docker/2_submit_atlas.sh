@@ -11,7 +11,7 @@ echo "
     "\"connector.class\"": "\"MongoDbAtlasSink\"",
     "\"kafka.api.key\"": "\"${CLOUD_KEY}\"",
     "\"kafka.api.secret\"": "\"${CLOUD_SECRET}\"",
-    "\"input.data.format\"" : "\"JSON\"",
+    "\"input.data.format\"" : "\"STRING\"",
     "\"connection.host\"": "\"${MONGODB_HOST}\"",
     "\"connection.user\"": "\"${MONGODB_USER}\"",
     "\"connection.password\"": "\"${MONGODB_PASSWORD}\"",
