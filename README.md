@@ -58,31 +58,31 @@ It -
 - creates ACLs with a wildcard for the service account.
 - creates "iiot.simulated" topic and update the service account with ACL operations.
 
-6. Docker workflow.
+6. Create Atlas connector in Confluent cloud
+
+Append MONGODB_HOST, MONGODB_USER, MONGODB_PASSWORD in the delta_configs/env.delta file.
+
+*./docker/ccloud/2_submit_atlas.sh*
+
+7. Docker workflow.
 
 Execute:
 
-*./docker/2_create_docker.sh*
+*./docker/3_create_docker.sh*
 
 It - 
 - creates containers for zookeeper, broker, schema-registry, replicator, connect, and Control-center.
 
-7. Connector workflow
+8. Connector workflow
 
 Execute:
 
-*./docker/3_create_topic_connectors_command.sh*
+*./docker/4_create_topic_connectors_command.sh*
 
 It -
 - creates iiot.simulated topic on the connect service
 - starts a replicator connector on the replicator service
 - starts a datagen connector to populate simulated data to iiot.simulate topic.
-
-8. Create Atlas connector in Confluent cloud
-
-Update the atlas_connection.json with mongodb KEY, SECRET, HOST and USER. 
-
-*./docker/ccloud/1_submit_atlas.sh*
 
 ##### 9. ksqlDB - TODO
 
