@@ -18,9 +18,6 @@ echo "
     "\"topics\"": "\"iiot.simulated.processed\"",
     "\"database\"": "\"iiot\"",
     "\"collection\"": "\"iiot-simulated\"",
-    "\"doc.id.strategy\"": "\"PartialKeyStrategy\"",
-    "\"doc.id.strategy.overwrite.existing\"": "\"false\"",
-    "\"key.projection.type\"": "\"allowlist\"",
     "\"tasks.max\"": "\"1\""
 } " > ./connect.json
 
