@@ -58,9 +58,9 @@ It -
 - creates ACLs with a wildcard for the service account.
 - creates "iiot.simulated" topic and update the service account with ACL operations.
 
-6. Login to Confluent Cloud (https://confluent.cloud/environments) > Select the environment (created in the previous step). > Select the cluster > Select ksqldb (https://confluent.cloud/environments/${env-id}/clusters/${cluster_id}/ksql)(Replace env-id and cluster_id.
+6. Login to [Confluent Cloud](https://confluent.cloud/environments) > Select the environment (created in the previous step). > Select the cluster > Select [ksqldb] (https://confluent.cloud/environments/${env-id}/clusters/${cluster_id}/ksql) (DO NOT FORGET TO REPLACE env-id and cluster_id in the URL].
 
-Run the ksqldb script in the editor. https://github.com/AskMeiPaaS/iiot-hybrid-with-mongodb-confluent/tree/main/docker#:~:text=2%20days%20ago-,5_ksql_query.ksql,-V2
+Run the [ksqldb script](https://github.com/AskMeiPaaS/iiot-hybrid-with-mongodb-confluent/tree/main/docker#:~:text=2%20days%20ago-,5_ksql_query.ksql,-V2) in the editor of the confluent cloud.
 
 7. Create Atlas connector in Confluent cloud
 
