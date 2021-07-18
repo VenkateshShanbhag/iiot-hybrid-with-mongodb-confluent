@@ -58,13 +58,17 @@ It -
 - creates ACLs with a wildcard for the service account.
 - creates "iiot.simulated" topic and update the service account with ACL operations.
 
-6. Create Atlas connector in Confluent cloud
+6. Login to Confluent Cloud (https://confluent.cloud/environments) > Select the environment (created in the previous step). > Select the cluster > Select ksqldb (https://confluent.cloud/environments/${env-id}/clusters/${cluster_id}/ksql)(Replace env-id and cluster_id.
+
+Run the ksqldb script in the editor. https://github.com/AskMeiPaaS/iiot-hybrid-with-mongodb-confluent/tree/main/docker#:~:text=2%20days%20ago-,5_ksql_query.ksql,-V2
+
+7. Create Atlas connector in Confluent cloud
 
 Append MONGODB_HOST, MONGODB_USER, MONGODB_PASSWORD in the delta_configs/env.delta file.
 
 *./docker/ccloud/2_submit_atlas.sh*
 
-7. Docker workflow.
+8. Docker workflow.
 
 Execute:
 
@@ -73,7 +77,7 @@ Execute:
 It - 
 - creates containers for zookeeper, broker, schema-registry, replicator, connect, and Control-center.
 
-8. Connector workflow
+9. Connector workflow
 
 Execute:
 
@@ -83,8 +87,6 @@ It -
 - creates iiot.simulated topic on the connect service
 - starts a replicator connector on the replicator service
 - starts a datagen connector to populate simulated data to iiot.simulate topic.
-
-##### 9. ksqlDB - TODO
 
 ## Destroy the environment
 To destroy docker and cloud assets,
