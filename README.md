@@ -57,7 +57,7 @@ It -
 - enables Confluent Cloud Schema Registry and associated credentials.
 - creates ACLs with a wildcard for the service account.
 - creates "iiot.simulated" topic and update the service account with ACL operations.
-- - creates "iiot.simulated.processed" topic and update the service account with ACL operations.
+- creates "iiot.simulated.processed" topic and update the service account with ACL operations.
 
 6. Login to [Confluent Cloud](https://confluent.cloud/environments) > Select the environment (created in the previous step). > Select the cluster > Select [ksqldb] (https://confluent.cloud/environments/${env-id}/clusters/${cluster_id}/ksql) (DO NOT FORGET TO REPLACE env-id and cluster_id in the URL].
 
