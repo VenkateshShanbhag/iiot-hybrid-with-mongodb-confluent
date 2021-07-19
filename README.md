@@ -57,6 +57,7 @@ It -
 - enables Confluent Cloud Schema Registry and associated credentials.
 - creates ACLs with a wildcard for the service account.
 - creates "iiot.simulated" topic and update the service account with ACL operations.
+- - creates "iiot.simulated.processed" topic and update the service account with ACL operations.
 
 6. Login to [Confluent Cloud](https://confluent.cloud/environments) > Select the environment (created in the previous step). > Select the cluster > Select [ksqldb] (https://confluent.cloud/environments/${env-id}/clusters/${cluster_id}/ksql) (DO NOT FORGET TO REPLACE env-id and cluster_id in the URL].
 
@@ -64,7 +65,9 @@ Run the [ksqldb script](https://github.com/AskMeiPaaS/iiot-hybrid-with-mongodb-c
 
 7. Create Atlas connector in Confluent cloud
 
-Append MONGODB_HOST, MONGODB_USER, MONGODB_PASSWORD in the delta_configs/env.delta file.
+Before you run the next script, append MONGODB_HOST, MONGODB_USER, MONGODB_PASSWORD in the delta_configs/env.delta (created in step 5) file.
+
+e.g. export MONGODB_PASSWORD="adsaf/fsdf/SzBqgEsdfsafUBzCfo"
 
 *./docker/ccloud/2_submit_atlas.sh*
 
