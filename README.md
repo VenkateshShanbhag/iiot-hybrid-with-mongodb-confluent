@@ -93,4 +93,4 @@ To destroy docker and cloud assets,
 
 Execute:
 
-*./docker/4_destroy-workflow.sh*
+*./docker/X_destroy-workflow.sh*
