@@ -69,6 +69,8 @@ Before you run the next script, append MONGODB_HOST, MONGODB_USER, MONGODB_PASSW
 
 e.g. export MONGODB_PASSWORD="adsaf/fsdf/SzBqgEsdfsafUBzCfo"
 
+Execute:
+
 *./docker/ccloud/2_submit_atlas.sh*
 
 8. Docker workflow.
