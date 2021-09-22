@@ -6,7 +6,7 @@ The android application has features such as time series collection, RealmDB, sy
 We have utilised time series collection hosted on mongodb managed atlas cluster as a sink for confluent connector to store the stream data for stimulation of moving vehicles. The stream can be generated using python script in data_generator folder.
 
 ## Setup
-Prerequisites for building the run and build the apk.
+Prerequisites to build the apk.
 
     1. Android Studio.
     2. Mongodb Atlas cluster with mongodb version 5.0 or higher.
@@ -14,15 +14,15 @@ Prerequisites for building the run and build the apk.
     4. GCP cloud credentials for maps service and firebase service.
 
 
-1. Install android studio:
+- #### Install android studio:
    Download and Install android studio from [here](https://developer.android.com/studio). Clone the repository and open the IoT/AndroidApp in android studio. Sync all the gradle dependencies.
 
-2. Configure MongoDB Atlas:
+- #### Configure MongoDB Atlas:
    Create collections in vehicle database:
   1. TrackingGeospatial: Holds the data of current location of tracked users also the details of users such as city, name etc.
   2. tracking-historic (Time series collection) - Live / Stimulated data is loaded to this collection. The data is generated from python script << git location >> and loaded using confluent connector for MongoDB Atlas.
 
-3. #### Configure Realm:
+- #### Configure Realm:
    We need following preconfigured in realm application to run the android application.
   * ##### Realm schema for TrackingGeospatial.
     TrackingGeospatial schema:
